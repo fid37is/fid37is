@@ -198,9 +198,8 @@ export const BlogSection: React.FC = () => {
                                             <img 
                                                 src={post.image} 
                                                 alt={post.title}
-                                                className="w-12 h-12 rounded-lg object-cover"
+                                                className="w-30 h-15 rounded-lg object-cover"
                                                 onError={(e) => {
-                                                    // Hide image if it fails to load
                                                     const target = e.target as HTMLImageElement;
                                                     target.style.display = 'none';
                                                 }}

@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect, useRef, RefObject } from 'react';
-import { ChevronDown, Mail, Phone, Github, Linkedin, ExternalLink, Calendar, Code, TestTube, Palette, Settings, CheckCircle, ArrowRight } from 'lucide-react';
+import { ChevronDown, Mail, Phone, Github, Linkedin, ExternalLink, Calendar, Code, TestTube, Palette, Settings, CheckCircle, ArrowRight, Menu, X } from 'lucide-react';
 import { DesignDevShowcase } from './components/DesignDevShowcase';
 import { BlogSection } from './components/BlogSection';
 
@@ -9,6 +9,7 @@ import { BlogSection } from './components/BlogSection';
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState<string>('home');
   const [scrollY, setScrollY] = useState<number>(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
   // Refs for each section
   const homeRef = useRef<HTMLElement>(null);
@@ -30,6 +31,7 @@ const Portfolio = () => {
   const scrollToSection = (sectionRef: RefObject<HTMLElement | HTMLDivElement | null>, sectionName: string) => {
     sectionRef.current?.scrollIntoView({ behavior: 'smooth' });
     setActiveSection(sectionName);
+    setMobileMenuOpen(false); // Close mobile menu after navigation
   };
 
   const skills = {
@@ -149,6 +151,17 @@ const Portfolio = () => {
     "Security testing and penetration testing basics"
   ];
 
+  const navItems = [
+    { name: 'Home', ref: homeRef },
+    { name: 'About', ref: aboutRef },
+    { name: 'Projects', ref: projectsRef },
+    { name: 'Showcase', ref: showcaseRef },
+    { name: 'Experience', ref: experienceRef },
+    { name: 'Skills', ref: skillsRef },
+    { name: 'Blog', ref: blogRef },
+    { name: 'Contact', ref: contactRef }
+  ];
+
   return (
     <div className="min-h-screen bg-white text-gray-900">
       {/* Navigation */}
@@ -158,21 +171,41 @@ const Portfolio = () => {
             <div className="text-2xl font-bold text-gray-900">
               Fidelis Agba
             </div>
+            
+            {/* Desktop Navigation */}
             <div className="hidden md:flex space-x-8">
-              {[
-                { name: 'Home', ref: homeRef },
-                { name: 'About', ref: aboutRef },
-                { name: 'Projects', ref: projectsRef },
-                { name: 'Showcase', ref: showcaseRef },
-                { name: 'Experience', ref: experienceRef },
-                { name: 'Skills', ref: skillsRef },
-                { name: 'Blog', ref: blogRef },
-                { name: 'Contact', ref: contactRef }
-              ].map((item) => (
+              {navItems.map((item) => (
                 <button
                   key={item.name}
                   onClick={() => scrollToSection(item.ref, item.name.toLowerCase())}
                   className={`hover:text-[#0090FF] transition-colors font-medium ${activeSection === item.name.toLowerCase() ? 'text-[#0081E4]' : 'text-gray-600'}`}
+                >
+                  {item.name}
+                </button>
+              ))}
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              {mobileMenuOpen ? (
+                <X className="w-6 h-6 text-gray-900" />
+              ) : (
+                <Menu className="w-6 h-6 text-gray-900" />
+              )}
+            </button>
+          </div>
+
+          {/* Mobile Navigation Menu */}
+          <div className={`md:hidden transition-all duration-300 ease-in-out ${mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} overflow-hidden`}>
+            <div className="pt-4 pb-2 space-y-2">
+              {navItems.map((item) => (
+                <button
+                  key={item.name}
+                  onClick={() => scrollToSection(item.ref, item.name.toLowerCase())}
+                  className={`block w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors font-medium ${activeSection === item.name.toLowerCase() ? 'text-[#0081E4] bg-blue-50' : 'text-gray-600'}`}
                 >
                   {item.name}
                 </button>
@@ -183,11 +216,11 @@ const Portfolio = () => {
       </nav>
 
       {/* Hero Section */}
-      <section ref={homeRef} className="min-h-screen flex items-center justify-center relative pb-20 pt-20 md:pt-0">
+      <section ref={homeRef} className="min-h-screen flex items-center justify-center relative pb-20 pt-24 md:pt-20">
         <div className="text-center z-10 max-w-5xl mx-auto px-6">
           <div className="mb-8">
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-6 text-gray-900 row-end-2">
-              <span className="block text-3xl">A Versatile</span>
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-6 text-gray-900">
+              <span className="block text-3xl sm:text-4xl md:text-5xl">A Versatile</span>
               <span className="block text-[#0090FF]">Tech Professional</span>
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-8 leading-relaxed max-w-3xl mx-auto">
@@ -197,16 +230,16 @@ const Portfolio = () => {
           </div>
 
           <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-8 sm:mb-12">
-            <span className="px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-4xl font-medium text-sm sm:text-base">
+            <span className="px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-medium text-sm sm:text-base">
               QA Engineering
             </span>
-            <span className="px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-4xl font-medium text-sm sm:text-base">
+            <span className="px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-full font-medium text-sm sm:text-base">
               Frontend Development
             </span>
-            <span className="px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-4xl font-medium text-sm sm:text-base">
+            <span className="px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full font-medium text-sm sm:text-base">
               UI/UX Design
             </span>
-            <span className="px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-yellow-500 to-red-500 text-white rounded-4xl font-medium text-sm sm:text-base">
+            <span className="px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-yellow-500 to-red-500 text-white rounded-full font-medium text-sm sm:text-base">
               Full-Stack Workflow
             </span>
           </div>
@@ -214,7 +247,7 @@ const Portfolio = () => {
           <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mb-8">
             <button
               onClick={() => scrollToSection(contactRef, 'contact')}
-              className="flex items-center justify-center space-x-2 px-6 sm:px-8 py-3 sm:py-4 bg-[#0090FF] hover:bg-[#0081E4] text-white rounded-4xl transition-all duration-300 font-medium"
+              className="flex items-center justify-center space-x-2 px-6 sm:px-8 py-3 sm:py-4 bg-[#0090FF] hover:bg-[#0081E4] text-white rounded-full transition-all duration-300 font-medium"
             >
               <Mail className="w-5 h-5" />
               <span>Get In Touch</span>
@@ -223,7 +256,7 @@ const Portfolio = () => {
               href="https://knowfidelis.netlify.app"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center space-x-2 px-6 sm:px-8 py-3 sm:py-4 border-2 border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 rounded-4xl transition-all duration-300 font-medium"
+              className="flex items-center justify-center space-x-2 px-6 sm:px-8 py-3 sm:py-4 border-2 border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 rounded-full transition-all duration-300 font-medium"
             >
               <ExternalLink className="w-5 h-5" />
               <span>Archives</span>
@@ -262,7 +295,7 @@ const Portfolio = () => {
             </div>
 
             <div className="space-y-6">
-              <div className="p-8 bg-white border border-gray-200 rounded-4xl shadow-sm">
+              <div className="p-8 bg-white border border-gray-200 rounded-2xl shadow-sm">
                 <h3 className="text-xl font-semibold mb-6 text-gray-900">Key Achievements</h3>
                 <ul className="space-y-4">
                   <li className="flex items-center space-x-3">
@@ -284,7 +317,7 @@ const Portfolio = () => {
                 </ul>
               </div>
 
-              <div className="p-8 bg-blue-50 border border-blue-100 rounded-4xl">
+              <div className="p-8 bg-blue-50 border border-blue-100 rounded-2xl">
                 <h3 className="text-xl font-semibold mb-6 text-gray-900">Current Focus</h3>
                 <div className="space-y-3">
                   {currentLearning.map((item, index) => (
@@ -309,7 +342,7 @@ const Portfolio = () => {
 
           <div className="space-y-12">
             {projects.map((project, index) => (
-              <div key={index} className="bg-white border border-gray-200 rounded-4xl p-8 shadow-sm hover:shadow-md transition-all duration-300">
+              <div key={index} className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm hover:shadow-md transition-all duration-300">
                 <div className="grid md:grid-cols-3 gap-8">
                   <div className="md:col-span-2">
                     <h3 className="text-2xl font-bold mb-2 text-gray-900">{project.title}</h3>
@@ -341,7 +374,7 @@ const Portfolio = () => {
 
                   <div className="space-y-4">
                     {project.metrics.map((metric, i) => (
-                      <div key={i} className="text-center p-6 bg-gray-50 border border-gray-200 rounded-4xl">
+                      <div key={i} className="text-center p-6 bg-gray-50 border border-gray-200 rounded-2xl">
                         <div className="text-3xl font-bold text-blue-600 mb-2">{metric.value}</div>
                         <div className="text-sm text-gray-600 font-medium">{metric.label}</div>
                       </div>
@@ -368,13 +401,13 @@ const Portfolio = () => {
 
           <div className="space-y-8">
             {experience.map((exp, index) => (
-              <div key={index} className="bg-white border border-gray-200 rounded-4xl p-8 shadow-sm hover:shadow-md transition-all duration-300">
+              <div key={index} className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm hover:shadow-md transition-all duration-300">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
                   <div>
                     <h3 className="text-xl font-bold text-gray-900">{exp.title}</h3>
                     <p className="text-blue-600 font-medium">{exp.company} • {exp.type}</p>
                   </div>
-                  <div className="flex items-center text-gray-500 font-medium">
+                  <div className="flex items-center text-gray-500 font-medium mt-2 md:mt-0">
                     <Calendar className="w-4 h-4 mr-2" />
                     {exp.period}
                   </div>
@@ -402,7 +435,7 @@ const Portfolio = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {Object.entries(skills).map(([category, data], index) => (
-              <div key={index} className="bg-white border border-gray-200 rounded-4xl p-6 shadow-sm hover:shadow-md transition-all duration-300">
+              <div key={index} className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300">
                 <div className="flex items-center mb-6">
                   <div className="text-blue-600 mr-3">{data.icon}</div>
                   <h3 className="text-lg font-semibold text-gray-900">{category}</h3>
@@ -433,7 +466,7 @@ const Portfolio = () => {
           </h2>
 
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white border border-gray-200 rounded-4xl p-8 shadow-sm">
+            <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
               <h3 className="text-xl font-semibold mb-6 text-gray-900">Certifications</h3>
               <div className="space-y-4">
                 {certifications.map((cert, index) => (
@@ -445,7 +478,7 @@ const Portfolio = () => {
               </div>
             </div>
 
-            <div className="bg-white border border-gray-200 rounded-4xl p-8 shadow-sm">
+            <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
               <h3 className="text-xl font-semibold mb-6 text-gray-900">Education</h3>
               <div className="space-y-4">
                 <div>
@@ -477,7 +510,7 @@ const Portfolio = () => {
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             <a
               href="mailto:mistarfid@gmail.com"
-              className="flex flex-col items-center p-8 bg-white border border-gray-200 rounded-4xl shadow-sm hover:shadow-md transition-all duration-300"
+              className="flex flex-col items-center p-8 bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300"
             >
               <Mail className="w-8 h-8 text-blue-600 mb-4" />
               <span className="text-gray-700 font-medium">mistarfid@gmail.com</span>
@@ -485,7 +518,7 @@ const Portfolio = () => {
 
             <a
               href="tel:+2348085952266"
-              className="flex flex-col items-center p-8 bg-white border border-gray-200 rounded-4xl shadow-sm hover:shadow-md transition-all duration-300"
+              className="flex flex-col items-center p-8 bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300"
             >
               <Phone className="w-8 h-8 text-green-600 mb-4" />
               <span className="text-gray-700 font-medium">+234 808 595 2266</span>
@@ -495,7 +528,7 @@ const Portfolio = () => {
               href="https://linkedin.com/in/fid37is"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex flex-col items-center p-8 bg-white border border-gray-200 rounded-4xl shadow-sm hover:shadow-md transition-all duration-300"
+              className="flex flex-col items-center p-8 bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300"
             >
               <Linkedin className="w-8 h-8 text-blue-600 mb-4" />
               <span className="text-gray-700 font-medium">LinkedIn Profile</span>
@@ -507,7 +540,7 @@ const Portfolio = () => {
               href="https://github.com/fid37is"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center space-x-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-4xl transition-all duration-300 font-medium"
+              className="flex items-center space-x-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-all duration-300 font-medium"
             >
               <Github className="w-5 h-5" />
               <span>GitHub</span>
@@ -516,7 +549,7 @@ const Portfolio = () => {
               href="https://knowfidelis.netlify.app"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center space-x-2 px-6 py-3 bg-[#0090FF] hover:bg-[#0081E4] text-white rounded-4xl transition-all duration-300 font-medium"
+              className="flex items-center space-x-2 px-6 py-3 bg-[#0090FF] hover:bg-[#0081E4] text-white rounded-full transition-all duration-300 font-medium"
             >
               <ExternalLink className="w-5 h-5" />
               <span>Archives</span>
