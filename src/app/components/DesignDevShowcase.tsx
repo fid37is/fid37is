@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { Github, Code, Palette, ArrowRight, Eye, TrendingUp, Zap } from 'lucide-react';
+import { Github, Code, Palette, ArrowRight, Eye, TrendingUp, Zap, Layers, Paintbrush, Target, Search, Puzzle } from 'lucide-react';
 
 // Design & Development Showcase Component
 export const DesignDevShowcase = () => {
@@ -20,7 +20,7 @@ export const DesignDevShowcase = () => {
                 "Task Completion": "+40%"
             },
             features: ["User Research", "Wireframing", "Prototyping", "A/B Testing"],
-            image: "🎨",
+            icon: Paintbrush,
             status: "Live"
         },
         {
@@ -36,7 +36,7 @@ export const DesignDevShowcase = () => {
                 "Developer Adoption": "100%"
             },
             features: ["Component Library", "Design Tokens", "Documentation", "Accessibility"],
-            image: "🎯",
+            icon: Target,
             status: "In Use"
         },
         {
@@ -52,7 +52,7 @@ export const DesignDevShowcase = () => {
                 "Time on Task": "-30%"
             },
             features: ["User Testing", "Journey Mapping", "Persona Development", "Usability Analysis"],
-            image: "🔍",
+            icon: Search,
             status: "Completed"
         }
     ];
@@ -104,7 +104,7 @@ export const DesignDevShowcase = () => {
             },
             github: "https://github.com/fid37is/capitol-tours.git",
             demo: "https://www.capitolhospitality.info/",
-            image: "🧩",
+            icon: Puzzle,
             status: "Maintained"
         }
     ];
@@ -116,8 +116,7 @@ export const DesignDevShowcase = () => {
             workflow: ["User Research", "UI Design", "Frontend Dev", "Backend API", "Testing", "Deployment"],
             tech: ["React", "Express.js", "MongoDB", "Figma", "Cypress"],
             role: "Full-Stack Designer-Developer",
-            impact: "Reduced project delivery time by 40% for client team",
-            image: "🚀"
+            impact: "Streamlined project workflows and improved team collaboration"
         }
     ];
 
@@ -173,7 +172,9 @@ export const DesignDevShowcase = () => {
                         {designProjects.map((project, index) => (
                             <div key={index} className="bg-white rounded-md p-8 shadow-xs hover:shadow-sm transition-all duration-300 border border-gray-100">
                                 <div className="flex items-center justify-between mb-6">
-                                    <div className="text-4xl">{project.image}</div>
+                                    <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+                                        <project.icon className="w-6 h-6 text-gray-600" />
+                                    </div>
                                     <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
                                         {project.status}
                                     </span>
@@ -220,7 +221,9 @@ export const DesignDevShowcase = () => {
                         {developmentProjects.map((project, index) => (
                             <div key={index} className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
                                 <div className="flex items-center justify-between mb-6">
-                                    <div className="text-4xl">{project.image}</div>
+                                    <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+                                        {project.icon ? <project.icon className="w-6 h-6 text-gray-600" /> : <Code className="w-6 h-6 text-gray-600" />}
+                                    </div>
                                     <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
                                         {project.status}
                                     </span>
@@ -253,7 +256,7 @@ export const DesignDevShowcase = () => {
                                         href={project.github}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center space-x-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all duration-300 text-sm font-medium"
+                                        className="flex items-center space-x-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-4xl transition-all duration-300 text-sm font-medium"
                                     >
                                         <Github className="w-4 h-4" />
                                         <span>Code</span>
@@ -262,7 +265,7 @@ export const DesignDevShowcase = () => {
                                         href={project.demo}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center space-x-2 px-4 py-2 bg-[#0090FF] hover:bg-[#0081E4] text-white rounded-lg transition-all duration-300 text-sm font-medium"
+                                        className="flex items-center space-x-2 px-4 py-2 bg-[#0090FF] hover:bg-[#0081E4] text-white rounded-4xl transition-all duration-300 text-sm font-medium"
                                     >
                                         <Eye className="w-4 h-4" />
                                         <span>Demo</span>
@@ -277,20 +280,22 @@ export const DesignDevShowcase = () => {
                 {activeTab === 'fullstack' && (
                     <div className="max-w-4xl mx-auto">
                         {fullStackProjects.map((project, index) => (
-                            <div key={index} className="bg-white rounded-xl p-8 shadow-lg border border-gray-100">
+                            <div key={index} className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
                                 <div className="text-center mb-8">
-                                    <div className="text-6xl mb-4">{project.image}</div>
+                                    <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                                        <Layers className="w-8 h-8 text-gray-600" />
+                                    </div>
                                     <h3 className="text-2xl font-bold mb-2 text-gray-900">{project.title}</h3>
                                     <p className="text-gray-600 mb-4">{project.description}</p>
-                                    <p className="text-blue-600 font-medium">{project.role}</p>
+                                    <p className="text-gray-700 font-medium">{project.role}</p>
                                 </div>
 
                                 <div className="mb-8">
                                     <h4 className="font-semibold text-gray-900 mb-4 text-center">Complete Workflow</h4>
-                                    <div className="flex flex-wrap justify-center gap-4">
+                                    <div className="flex flex-wrap justify-center gap-3">
                                         {project.workflow.map((step, i) => (
                                             <div key={i} className="flex items-center">
-                                                <div className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-medium text-sm">
+                                                <div className="px-4 py-2 bg-gray-100 text-gray-700 border border-gray-200 rounded-lg font-medium text-sm">
                                                     {step}
                                                 </div>
                                                 {i < project.workflow.length - 1 && (
@@ -302,9 +307,9 @@ export const DesignDevShowcase = () => {
                                 </div>
 
                                 <div className="text-center">
-                                    <div className="inline-flex items-center space-x-2 px-6 py-3 bg-green-100 text-green-800 rounded-lg font-medium">
-                                        <TrendingUp className="w-5 h-5" />
-                                        <span>{project.impact}</span>
+                                    <div className="inline-flex items-center space-x-2 px-6 py-3 bg-gray-50 text-gray-700 border border-gray-200 rounded-lg">
+                                        <TrendingUp className="w-5 h-5 text-gray-600" />
+                                        <span className="font-medium">{project.impact}</span>
                                     </div>
                                 </div>
                             </div>

@@ -1,9 +1,9 @@
 'use client'
 import React, { useState, useEffect, useRef, RefObject } from 'react';
-import { ChevronDown, Mail, Phone, Github, Linkedin, ExternalLink, Calendar, Code, TestTube, Palette, Settings, CheckCircle, ArrowRight, Menu, X } from 'lucide-react';
+import { ChevronDown, Mail, Phone, Github, Linkedin, ExternalLink, Calendar, Code, TestTube, Palette, Settings, CheckCircle, ArrowRight } from 'lucide-react';
+import { Navigation } from './components/Navigation';
 import { DesignDevShowcase } from './components/DesignDevShowcase';
 import { BlogSection } from './components/BlogSection';
-
 
 // Main Portfolio Component
 const Portfolio = () => {
@@ -41,7 +41,7 @@ const Portfolio = () => {
     },
     'Development': {
       icon: <Code className="w-6 h-6" />,
-      skills: ['JavaScript', 'React.js', 'Vue.js', 'TypeScript', 'HTML5/CSS3', 'REST APIs']
+      skills: ['JavaScript', 'React.js', 'Vue.js', 'TypeScript', 'HTML5/CSS3', 'REST APIs', 'Google APIs']
     },
     'UI/UX Design': {
       icon: <Palette className="w-6 h-6" />,
@@ -164,56 +164,15 @@ const Portfolio = () => {
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
-      {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrollY > 50 ? 'bg-white/95 backdrop-blur-sm shadow-lg border-b border-gray-100' : 'bg-transparent'}`}>
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            <div className="text-2xl font-bold text-gray-900">
-              Fidelis Agba
-            </div>
-            
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex space-x-8">
-              {navItems.map((item) => (
-                <button
-                  key={item.name}
-                  onClick={() => scrollToSection(item.ref, item.name.toLowerCase())}
-                  className={`hover:text-[#0090FF] transition-colors font-medium ${activeSection === item.name.toLowerCase() ? 'text-[#0081E4]' : 'text-gray-600'}`}
-                >
-                  {item.name}
-                </button>
-              ))}
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              {mobileMenuOpen ? (
-                <X className="w-6 h-6 text-gray-900" />
-              ) : (
-                <Menu className="w-6 h-6 text-gray-900" />
-              )}
-            </button>
-          </div>
-
-          {/* Mobile Navigation Menu */}
-          <div className={`md:hidden transition-all duration-300 ease-in-out ${mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} overflow-hidden`}>
-            <div className="pt-4 pb-2 space-y-2">
-              {navItems.map((item) => (
-                <button
-                  key={item.name}
-                  onClick={() => scrollToSection(item.ref, item.name.toLowerCase())}
-                  className={`block w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors font-medium ${activeSection === item.name.toLowerCase() ? 'text-[#0081E4] bg-blue-50' : 'text-gray-600'}`}
-                >
-                  {item.name}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </nav>
+      {/* Navigation Component */}
+      <Navigation 
+        scrollY={scrollY}
+        activeSection={activeSection}
+        mobileMenuOpen={mobileMenuOpen}
+        setMobileMenuOpen={setMobileMenuOpen}
+        navItems={navItems}
+        scrollToSection={scrollToSection}
+      />
 
       {/* Hero Section */}
       <section ref={homeRef} className="min-h-screen flex items-center justify-center relative pb-20 pt-24 md:pt-20">
@@ -240,7 +199,7 @@ const Portfolio = () => {
               UI/UX Design
             </span>
             <span className="px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-yellow-500 to-red-500 text-white rounded-full font-medium text-sm sm:text-base">
-              Full-Stack Workflow
+              Project Management
             </span>
           </div>
 
